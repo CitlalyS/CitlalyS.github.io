@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@1&display=swap" rel="stylesheet">
+  <title>Anna Dowlin</title>
+  <style>
+    body {
+      text-align: center;
+      background: url("https://c8.alamy.com/zooms/6/3b90847ee404416e885c2af34424acec/t7a77m.jpg");
+      background-size: cover;
+      background-position: center;
+      color: green;
+      font-family: helvetica;
+    }
+    p {
+      font-family: 'Rubik Bubbles', cursive;
+      font-size: 30px;
+    }
+    input {
+      font-family: 'Xanh Mono', monospace;
+      border: 0;
+      padding: 10px;
+      font-size: 18px;
+      
+    }
+    input[type="submit"] {
+      background: green;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://image.shutterstock.com/image-vector/occult-black-cat-two-heads-600w-1675786801.jpg">
+  <p>Hi! I'm Citlaly. Say hello!</p>
+  <input id ="Name" placeholder="Your name">
+  <input id="Email" placeholder="Your email">
+  <input id="submit" type="submit">
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+	import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+	
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+	 // Your web app's Firebase configuration
+	  const firebaseConfig = {
+	    apiKey: "AIzaSyBz4SmiXEjDKF2-376dM5cjfrLFviJ6Vwo",
+	    authDomain: "citlaly-soriano-html.firebaseapp.com",
+	    databaseURL: "https://citlaly-soriano-html-default-rtdb.firebaseio.com",
+	    projectId: "citlaly-soriano-html",
+	    storageBucket: "citlaly-soriano-html.appspot.com",
+	    messagingSenderId: "1010920575793",
+	    appId: "1:1010920575793:web:9fb40ab3059215ecaf9610"
+	  };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+	
+	const Name = document.querySelector("#Name") 
+	const Email = document.querySelector("#Email")
+	document.querySelector('#submit').addEventListener('click', Submit)
+	function Submit() {
+	  const timestamp = buildTimestamp()
+	  
+	  set(ref(db, timestamp), {
+		  Name: Name.value,
+	      email: Email.value,
+	  });
+
+	  Name.value = ""
+	  Email.value = ""
+	}
+	function buildTimestamp() {
+	  const now = new Date();
+	  let timestamp = now.getFullYear().toString() + "/";
+	  //const month = now.toLocaleString('default', { month: 'long' });
+
+	  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+	  month = month.toString()
+	  month = addLeadingZero(month)
+	  timestamp += month + "/"; 
+
+	  let date = now.getDate().toString()
+	  date = addLeadingZero(date)
+	  timestamp += date + "/";
+
+	  let hours = now.getHours().toString()
+	  hours = addLeadingZero(hours)
+	  timestamp += hours + ":";
+
+	  let minutes = now.getMinutes().toString()
+	  minutes = addLeadingZero(minutes)
+	  timestamp += minutes + ":";
+
+	  let seconds = now.getSeconds().toString()
+	  seconds = addLeadingZero(seconds)
+	  timestamp += seconds;
+  
+	  return timestamp
+	}
+	
+	function addLeadingZero(units) {
+		if (units.length < 2) {
+			units = "0" + units
+		}
+		return units
+	}
+	
+  </script>
+</body>
